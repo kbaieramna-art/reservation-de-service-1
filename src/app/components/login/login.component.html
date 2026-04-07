@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+   
+</head>
+
+<body>
+
+    <div class="auth-container">
+
+        <aside class="info-side">
+            <div class="circle-decor"></div>
+            <h2>Welcome Back!</h2>
+        </aside>
+
+        <section class="form-side">
+            <div class="form-header">
+                <h1>Login</h1>
+                <p>Please enter your details to continue.</p>
+            </div>
+            <form #loginForm="ngForm" name="form" (ngSubmit)="Login()">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input #email="ngModel" required email [(ngModel)]="user.email" name="email" type="email"
+                        class="form-control" placeholder="name@example.com">
+                </div>
+                <div *ngIf="loginForm.submitted && email.invalid" class="invalidfeedback">
+                    <div *ngIf="email.errors?.['required']">email is required</div>
+                    <div *ngIf="email.errors?.['email']">enter a valid email</div>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input #password="ngModel" required [(ngModel)]="user.password" name="passwordlogin" type="password"
+                        class="form-control" placeholder="password">
+                    <div *ngIf="loginForm.submitted && password.invalid" class="invalidfeedback">
+                        <div *ngIf="password.errors?.['required']">password is required</div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <label class="checkbox-container">
+                        <input type="checkbox"> Remember me
+                    </label>
+                    <a href="#" class="forgot-link">Forgot Password?</a>
+                </div>
+                <span class="text-danger">{{eror}}</span>
+
+
+                <button type="button" class="btn-submit" >Login Now</button>
+
+                <div class="signup-prompt">
+                    Don’t have an account? <a routerLink="/signup">Sign up</a>
+                </div>
+                <span>{{valideror}}</span>
+            </form>
+
+
+        </section>
+
+    </div>
+
+</body>
+
+</html>

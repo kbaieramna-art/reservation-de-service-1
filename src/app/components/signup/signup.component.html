@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+
+
+</head>
+
+<body>
+
+    <main class="signup-wrapper">
+
+        <section class="info-col">
+            <div class="action-links">
+                <a routerLink="/login" class="action-link">
+                    Already have an account? Login
+                </a>
+            </div>
+        </section>
+
+        <section class="form-col">
+            <div class="form-header">
+                <h1>Create New Account</h1>
+                <p>Fill in the details below.</p>
+            </div>
+
+            <form [formGroup]="signupform">
+
+                <div class="form-group">
+                    <label>First Name</label>
+                    <input formControlName="firstname" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input formControlName="lastname" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" formControlName="email" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" formControlName="password" class="form-control">
+                </div>
+                <div class="form-group" *ngIf="actuelpath=='/signupprestatair'">
+                    <label>Your speciality</label>
+                    <input formControlName="speciality" class="form-control">
+                </div>
+                <div class="form-group" *ngIf="actuelpath=='/signupprestatair'">
+                    <label>Your location</label>
+                    <textarea formControlName="location" class="form-control"></textarea>
+                </div>
+                <input type="file" #filepicker (change)="selectedimage($event)" hidden>
+
+                <div class="form-group">
+                    <button type="button" class="submit-btn" (click)="filepicker.click()">
+                        Select your photo
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="submit-btn" (click)="signup()">
+                        Sign up
+                    </button>
+                </div>
+
+            </form>
+        </section>
+
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+<table class="table table-responsive product-dashboard-table">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Service</th>
+            <th class="text-center">price</th>
+            <th class="text-center">Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let service of servicetab">
+            <td >
+                <img width="80px" [src]="service.serviceimg">
+            </td>
+
+            <td class="product-details">
+                <h3 class="title">{{service.name}}</h3>
+            </td>
+
+            <td class="product-category">
+                <span class="categories">{{service.price}}</span>
+            </td>
+
+            <td class="action">
+                <ul class="list-inline justify-content-center">
+
+                   
+                     <li class="list-inline-item">
+                        <a class="edit" href="">
+                            <i class="fa fa-pencil" (click)="editservice(service._id)"></i>
+                        </a>
+                    </li>
+
+
+                   
+                     <li class="list-inline-item">
+                        <a class="delete" href="">
+                            <i class="fa fa-trash" (click)="deletservicre(service._id)"></i>
+                        </a>
+                    </li>
+
+                </ul>
+            </td>
+        </tr>
+    </tbody>
+</table>

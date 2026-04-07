@@ -1,0 +1,127 @@
+ 
+        :root {
+            --primary-dark: #2b2e83;
+            --primary-main: #6a5cff;
+            --primary-light: #eef0ff;
+            --accent: #7c83ff;
+            --white: #ffffff;
+            --shadow: 0 15px 35px rgba(43, 46, 131, 0.25);
+            --radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+            background-color: #f2f4ff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* ====== MAIN WRAPPER ====== */
+        .signup-wrapper {
+            background: var(--white);
+            width: 100%;
+            max-width: 900px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* ====== LEFT PANEL ====== */
+        .info-col {
+            background: linear-gradient(135deg, #2b2e83, #4b50c7, #6a5cff);
+            color: white;
+            padding: 50px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .action-links {
+            width: 100%;
+        }
+
+        .action-link {
+            display: block;
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .action-link:hover {
+            background: white;
+            color: #4b50c7;
+        }
+
+        /* ====== FORM PANEL ====== */
+        .form-col {
+            padding: 40px 50px;
+            flex: 1;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid #e5e5ff;
+            background: #fafaff;
+        }
+
+        /* ====== BUTTON ====== */
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to right, #4b50c7, #6a5cff);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        /* ====== RESPONSIVE ====== */
+        @media (min-width: 768px) {
+            .signup-wrapper {
+                flex-direction: row;
+            }
+
+            .info-col {
+                width: 40%;
+            }
+        }
+    

@@ -1,0 +1,54 @@
+<table class="table table-responsive product-dashboard-table">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th class="text-center">email</th>
+            <th class="text-center">Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let prestataire of prestatairetab">
+            <td class="product-thumb">
+                <img width="80px" [src]="prestataire.img">
+            </td>
+
+            <td class="product-details">
+                <h3 class="title">{{prestataire.firstname}} </h3>
+            </td>
+            <td class="product-details">
+                <h3 class="title"> {{prestataire.lastname}}</h3>
+            </td>
+
+            <td class="product-category">
+                <span class="categories">{{prestataire.email}}</span>
+            </td>
+
+            <td class="action">
+                <ul class="list-inline justify-content-center">
+                    <li class="list-inline-item">
+                        <a data-toggle="tooltip" data-placement="top" title="Tooltip on top" class="view" href="">
+                            <i class="fa fa-eye" (click)="validate(prestataire._id)"></i>
+                        </a>
+                    </li>
+
+                    <li class="list-inline-item">
+                        <a class="edit" href="">
+                            <i class="fa fa-pencil" (click)="edit(prestataire._id)"></i>
+                        </a>
+                    </li>
+
+                    <li class="list-inline-item">
+                        <a class="delete" href="">
+                            <i class="fa fa-trash" (click)="deletuser(prestataire._id)"></i>
+                        </a>
+                    </li>
+
+                </ul>
+
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,77 @@
+<div class="page">
+
+  <h1 class="title">Réservez votre service</h1>
+  <p class="subtitle">Choisissez la date, l'heure et le service qui vous convient</p>
+
+  <div class="container">
+
+    <!-- LEFT CARD -->
+   <div class="page">
+
+  <h1 class="title">Réservez votre service</h1>
+  <p class="subtitle">Choisissez la date, l'heure et le service qui vous convient</p>
+
+  <div class="container">
+
+    <!-- LEFT CARD -->
+    <div class="card form-card">
+
+      <form [formGroup]="reservationForm" (ngSubmit)="reservation()">
+
+        <h3>Informations de contact</h3>
+
+        <input type="text" placeholder="Nom complet" formControlName="fullName">
+
+        <h3>Email</h3>
+        <input type="email" placeholder="Votre email" formControlName="email">
+
+        <h3>Téléphone</h3>
+        <input type="tel" placeholder="+216 XX XX XX XX" formControlName="phone">
+
+        <h3>Service</h3>
+        <input type="text" placeholder="Nom De Service" formControlName="service">
+
+        <h3>Date</h3>
+        <input type="date" formControlName="date">
+
+        <h3>Heure</h3>
+        <input type="time" formControlName="time">
+
+        <button type="submit" class="btn">Confirmer la réservation</button>
+
+      </form>
+
+    </div>
+
+    <!-- RIGHT CARD -->
+    <div class="card summary-card">
+
+      <h3>Résumé</h3>
+
+      <div class="row">
+        <span>Service</span>
+        <strong>Aucun service</strong>
+      </div>
+
+      <div class="row">
+        <span>Date</span>
+        <strong>Non définie</strong>
+      </div>
+
+      <div class="row">
+        <span>Heure</span>
+        <strong>Non définie</strong>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="row total">
+        <span>Total</span>
+        <strong>—</strong>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

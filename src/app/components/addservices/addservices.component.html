@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>service</title>
+
+    <style>
+      /* ===== COLOR THEME ===== */
+:root {
+    --primary-dark: #1e1b4b;
+    --primary-main: #5b5fff;
+    --primary-light: #e8eaff;
+    --accent-color: #7c83ff;
+    --text-color: #1f2937;
+    --text-light: #6b7280;
+    --white: #ffffff;
+    --bg-color: #f3f4ff;
+    --error-color: #dc2626;
+    --radius: 12px;
+    --shadow: 0 20px 45px rgba(30, 27, 75, 0.3);
+}
+
+/* ===== RESET ===== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+body {
+    background: var(--bg-color);
+    background-image: radial-gradient(#c7cbff 1px, transparent 1px);
+    background-size: 18px 18px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* ===== CONTAINER ===== */
+.auth-container {
+    display: flex;
+    max-width: 950px;
+    width: 100%;
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+/* ===== LEFT SIDE ===== */
+.info-side {
+    width: 40%;
+    background: linear-gradient(135deg, #1e1b4b, #3730a3, #5b5fff);
+    color: white;
+    padding: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+}
+
+.info-side h2 {
+    font-size: 2.3rem;
+    line-height: 1.2;
+}
+
+.circle-decor {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    bottom: -60px;
+    right: -60px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+}
+
+/* ===== FORM SIDE ===== */
+.form-side {
+    width: 60%;
+    padding: 50px;
+}
+
+.form-header {
+    margin-bottom: 30px;
+}
+
+.form-header h1 {
+    color: var(--primary-dark);
+    font-size: 1.8rem;
+    margin-bottom: 6px;
+}
+
+.form-header p {
+    color: var(--text-light);
+}
+
+/* ===== FORM ELEMENTS ===== */
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-control,
+textarea {
+    width: 100%;
+    padding: 13px 15px;
+    border-radius: 8px;
+    border: 2px solid #e5e7ff;
+    background: #fafbff;
+    font-size: 0.95rem;
+    transition: 0.3s;
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-control:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--primary-main);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(91,95,255,0.2);
+}
+
+/* ===== BUTTONS ===== */
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(to right, #3730a3, #5b5fff);
+    color: white;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.95;
+}
+
+/* File button spacing */
+.file-btn {
+    margin-bottom: 10px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .auth-container {
+        flex-direction: column;
+    }
+
+    .info-side,
+    .form-side {
+        width: 100%;
+    }
+
+    .info-side {
+        padding: 35px 20px;
+    }
+
+    .form-side {
+        padding: 35px 20px;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+
+    <div class="auth-container">
+
+        <aside class="info-side">
+            <div class="circle-decor"></div>
+            <h2>Add a New Services</h2>
+        </aside>
+
+        <section class="form-side">
+            <div class="form-header">
+                <h1>add Services</h1>
+                <p>Please enter your details to continue.</p>
+            </div>
+            <form #addserviceForm="ngForm" (ngSubmit)="addservice()">
+
+                <div class="form-group">
+                    <input [(ngModel)]="service.name" name="servicename" type="text" class="form-control"
+                        placeholder="name of the service">
+                </div>
+
+                <div class="form-group">
+                    <textarea type="text" [(ngModel)]="service.discription" name="discription"
+                        placeholder="discription"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <input [(ngModel)]="service.price" name="price" type="text" class="form-control"
+                        placeholder="price of the service">
+                </div>
+                <div class="form-group">
+                    <input [(ngModel)]="service.prestataireemail" name="prestataireemail" type="email"
+                        class="form-control" placeholder="email of the prestataire">
+                </div>
+
+
+                <div class="form-group">
+                    <input type="file" #filepicker (change)="selectedimage($event)" class="form-control"
+                        style="display:none;">
+                </div>
+                <div class="form-group">
+                    <button class="submit-btn"  (click)="filepicker.click()">select your photo</button>
+                    <div class="form-group">
+                    <button type="submit"class="submit-btn"> add </button>
+
+                </div>
+                </div>
+
+                
+            </form>
+
+        </section>
+
+    </div>
+
+</body>
+
+</html>

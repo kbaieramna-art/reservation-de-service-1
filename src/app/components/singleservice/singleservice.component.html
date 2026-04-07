@@ -1,0 +1,107 @@
+<section class="section bg-gray">
+    <!-- Container Start -->
+    <div class="container">
+        <div class="row">
+            <!-- Left sidebar -->
+            <div class="col-md-8">
+                <div class="product-details">
+                    <h1 class="product-title">{{services.name}}</h1>
+                   
+                    <div id="carouselExampleIndicators" class="product-slider carousel slide" data-ride="carousel">
+
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img class="d-block w-100" [src]="services.serviceimg"
+                                    alt="First slide">
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="content">
+                        <ul class="nav nav-pills  justify-content-center" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-bs-target="#pills-home" role="tab">Product Details</a>
+                            </li>
+
+
+                        </ul>
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-home" role="tabpanel">
+                                <h3 class="tab-title">Product Description</h3>
+                                <p>{{services.discription}}</p>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="sidebar">
+                    <div class="widget price text-center" >
+                        <h4>Price</h4>
+                        <p>{{services.price}}</p>
+                    </div>
+                    <!-- User Profile widget -->
+                    <div class="widget user" >
+                        <img class="rounded-circle" style="width:140px;height:140px;object-fit:cover;" [src]="prestataire.img" >
+                        <h4 class="member-time">{{prestataire.firstname}} {{prestataire.lastname}}</h4>
+                        <a href="">See all ads</a>
+                        <ul class="list-inline mt-20">
+                            <li class="list-inline-item"><a href="" class="btn btn-contact">{{prestataire.location}}</a></li>
+                            <li class="list-inline-item"><a href="" class="btn btn-offer">Make an offer</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Rate Widget -->
+
+
+                    <!-- Coupon Widget -->
+                    <div class="widget coupon text-center">
+                        <!-- Coupon description -->
+                        <p>book now.
+                        </p>
+                        <!-- Submii button -->
+                        <a [routerLink]="['/book',prestataire?.id]" class="btn btn-transparent-white">Book</a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Container End -->
+</section>
+<div class="col-md-12 offset-md-1 col-lg-12 offset-lg-0">
+    <div class="block comment">
+        <h4>Leave A Comment</h4>
+        <form action="#">
+            <!-- Message -->
+            <div class="form-group mb-30">
+                <label for="message">Message</label>
+                <textarea class="form-control" id="message" rows="8"></textarea>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <!-- Name -->
+                    <div class="form-group mb-30">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name">
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <!-- Email -->
+                    <div class="form-group mb-30">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email">
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-transparent">Leave Comment</button>
+        </form>
+    </div>
+</div>
