@@ -149,16 +149,63 @@ app.get("/users/allusers", (req, res) => {
 })
 app.delete("/users/deletuser/:id", (req, res) => {
     console.log("Business logic for deleting user by ID");
-    User.deleteOne({ _id: req.params.id }).then((
-        (deleteRes) => {
-            console.log("DB's response after deletion", deleteRes);
-            if (deleteRes.deletedCount == 1) {
-                res.json({ msg: true })
-            } else {
-                res.json({ msg: false })
-            }
+
+    let id = req.params.id;
+
+    User.findById(id).then((foundUser) => {
+        console.log("Here is the found user:", foundUser);
+
+        if (!foundUser) {
+            res.json({ msg: false, error: "User not found" });
         }
-    ))
+
+        else if (foundUser.role == "prestataire") {
+            console.log("Deleting prestataire with related services and reservations");
+
+            Services.deleteMany({ prestataireid: id }).then(
+                (deleteServicesRes) => {
+                console.log("Deleted services:", deleteServicesRes);
+
+                Reservation.deleteMany({ prestataireid: id }).then(
+                    (deleteReservationsRes) => {
+                    console.log("Deleted reservations:", deleteReservationsRes);
+
+                    User.deleteOne({ _id: id }).then(
+                        (deleteRes) => {
+                        console.log("DB's response after deleting prestataire", deleteRes);
+
+                        if (deleteRes.deletedCount == 1) {
+                            res.json({ msg: true });
+                        } else {
+                            res.json({ msg: false });
+                        }
+                    });
+                });
+            });
+        }
+
+        else if (foundUser.role == "user") {
+            console.log("Deleting user with his reservations");
+
+            Reservation.deleteMany({ userid: id }).then(
+                (deleteReservationsRes) => {
+                console.log("Deleted reservations:", deleteReservationsRes);
+
+                User.deleteOne({ _id: id }).then(
+                    (deleteRes) => {
+                    console.log("DB's response after deleting user", deleteRes);
+
+                    if (deleteRes.deletedCount == 1) {
+                        res.json({ msg: true });
+                    } else {
+                        res.json({ msg: false });
+                    }
+                });
+            });
+        }
+
+
+    })
 });
 app.put("/users/edit", (req, res) => {
     console.log("Business logic for editing user");
@@ -197,22 +244,42 @@ app.put("/users/validate/:id", (req, res) => {
 });
 //.................//
 //service logic
-app.post("/services/addservice",
-    multer({ storage: storageConfig }).single("image"),
+app.post("/services/addservice", multer({ storage: storageConfig }).single("image"),
     (req, res) => {
 
-        let serviceObj = new Service({
-            name: req.body.name,
-            discription: req.body.discription,
-            price: req.body.price,
-            prestataireemail: req.body.prestataireemail,
-            image: "http://localhost:3000/myShortCut/" + req.file.filename
+        console.log("Business logic for adding service");
+
+        User.findOne({ email: req.body.prestataireemail }).then(
+            (foundPrestataire) => {
+            console.log("Here is the found prestataire:", foundPrestataire);
+
+            if (!foundPrestataire) {
+                res.json({ msg: "Prestataire not found", isadded: false });
+            } else {
+
+                let serviceObj = new Service({
+                    name: req.body.name,
+                    discription: req.body.discription,
+                    price: req.body.price,
+                    prestataireemail: req.body.prestataireemail,
+                    prestataireid: foundPrestataire._id,
+                    image: "http://localhost:3000/myShortCut/" + req.file.filename
+                });
+
+                serviceObj.save().then((savedService) => {
+                    console.log("Here is the saved service:", savedService);
+
+                    User.updateOne(
+                        { _id: foundPrestataire._id },
+                        { $push: { services: savedService._id } }
+                    ).then((updateRes) => {
+                        console.log("Here is the update response:", updateRes);
+
+                        res.json({ msg: "Service added", isadded: true });
+                    });
+                });
+            }
         });
-
-        serviceObj.save().then(() => {
-            res.json({ msg: "Service added", isadded: true });
-        })
-
     });
 app.get("/services/allservice", (req, res) => {
     console.log("Business logic for getting all services");
@@ -233,7 +300,7 @@ app.get("/services/:id", (req, res) => {
             let prestataireid = doc.prestataireid;
             User.findById({ prestataireid }).then(
                 (doc1) => {
-                    res.json({ serviceObj: doc,prestataireinfo: doc1 });
+                    res.json({ serviceObj: doc, prestataireinfo: doc1 });
                 }
             )
 
@@ -268,6 +335,83 @@ app.delete("/services/delet/:id", (req, res) => {
         }
     ))
 });
+app.get("/services/servicebyemail/:email", (req, res) => {
+    console.log("Business logic for getting services by prestataire email");
+
+    let email = req.params.email;
+    console.log("Here is the prestataire email:", email);
+
+    Services.find({ prestataireemail: email }).then(
+        (docs) => {
+        console.log("Here are the found services:", docs);
+        res.json({ tab: docs });
+    })
+});
 
 //........//
+app.post("/reservation/addreservation", (req, res) => {
+    console.log("Business logic for adding reservation");
+
+    Services.findOne({
+        name: req.body.service,
+        prestataireid: req.body.prestataireid
+    }).then((foundService) => {
+        console.log("Here is the found service:", foundService);
+
+        if (!foundService) {
+            res.json({ msg: "Service not found" });
+        } else {
+
+            Reservation.findOne({
+                serviceid: foundService._id,
+                prestataireid: req.body.prestataireid,
+                date: req.body.date,
+                time: req.body.time
+            }).then(
+                (foundReservation) => {
+                console.log("Here is the found reservation:", foundReservation);
+
+                if (foundReservation) {
+                    res.json({ msg: "This date and time are already reserved for this service" });
+                } else {
+
+                    let reservationObj = new Reservation({
+                        fullname: req.body.fullname,
+                        email: req.body.email,
+                        phone: req.body.phone,
+                        service: req.body.service,
+                        date: req.body.date,
+                        time: req.body.time,
+                        userid: req.body.userid,
+                        prestataireid: req.body.prestataireid,
+                        serviceid: foundService._id
+                    });
+
+                    reservationObj.save().then(
+                        (savedReservation) => {
+                        console.log("Here is the saved reservation:", savedReservation);
+
+                        User.updateOne(
+                            { _id: req.body.userid },
+                            { $push: { reservationids: savedReservation._id } }
+                        ).then(
+                            (updateClientRes) => {
+                            console.log("Client updated:", updateClientRes);
+
+                            User.updateOne(
+                                { _id: req.body.prestataireid },
+                                { $push: { reservationids: savedReservation._id } }
+                            ).then(
+                                (updatePrestataireRes) => {
+                                console.log("Prestataire updated:", updatePrestataireRes);
+
+                                res.json({ msg: "Reservation added" });
+                            });
+                        });
+                    });
+                }
+            });
+        }
+    })
+});
 module.exports = app;

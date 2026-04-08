@@ -11,6 +11,10 @@ const reservationschema = mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
         },
+        prestataireid: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+        },
         serviceid: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Services",
